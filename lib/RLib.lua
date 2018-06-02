@@ -493,6 +493,7 @@ function Mount(id)
 end
 
 function X(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].X
@@ -501,6 +502,7 @@ function X(id)
 end
 
 function Y(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Y
@@ -509,6 +511,7 @@ function Y(id)
 end
 
 function Z(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Z
