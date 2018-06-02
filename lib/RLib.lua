@@ -1,8 +1,13 @@
 dofile("FindItems.lua")
 
-self = UO.CharID
+-- Aliases
+self     = UO.CharID
+backpack = UO.BackpackID
+
+
 -- Door Types
 doors = {1769, 1657, 1659, 1709, 1755, 1711, 1703, 1655, 8175, 1687, 1719, 1751, 1767, 2086, 2107, 2126, 2152, 806, 822, 838, 854, 1735, 790, 1671, 1663, 8183, 1695, 1711, 1727, 1759, 1775, 2094, 2115, 2134, 2160, 814, 830, 846, 848, 864, 1743, 798, 1679, 1653, 8173, 1685, 1701, 1717, 1749, 1765, 2084, 2124, 2150, 804, 820, 836, 852, 1733, 788, 1669}
+
 
 Journal = {}
  
@@ -116,23 +121,35 @@ List.Clear = function(state)
 end
 
 ignoretile = List:CreateList()
-ignoretile:Push({X=0, Y=0, Z=0})
+--ignoretile:Push({X=0, Y=0, Z=0})
 
 ignoreobject = List:CreateList()
-ignoreobject:Push(0)
+--ignoreobject:Push(0)
+-- Timer stuff
 
-function WorldSaveCheck()
-	local jres = journal:Find("world is saving")
-	if jres ~= nil then    
-		UO.ExMsg(UO.CharID, 0, 55, "World Saving..." )
-		journal:Clear()
-		while jres == nil do
-			jres = journal:Find("save complete.")
-		end     
-		print("World save complete.")
-		return true
-	end
-	return false
+Timer = {}
+Timer.New = function()
+	local state = {}
+	local mt = {__index = Timer}
+	setmetatable(state, mt)
+	state:Clear()
+	return state
+end
+
+Timer.Set = function(state, value)
+	state.value = getticks() - value
+	return nil
+end
+
+Timer.Dif = function(state)
+	return getticks() - state.value
+end
+
+
+Timer.Clear = function(state)
+	state.index = 0
+	state.value = getticks()
+	return nil
 end
 
 function Stop()
@@ -182,13 +199,14 @@ function Hits(n)
 end
 
 function Dead(id)
-	local found = FindObject(id)
-	if #found > 0 then
-		if found[1].Type == 400 then
-			return false
-		end
-	end
-	return true
+	return Hits(id) == 0
+	--local found = FindObject(id)
+	--if #found > 0 then
+		--if found[1].Type == 400 then
+			--return false
+		--end
+	--end
+	--return true
 end
 
 function FindTileType(tType, range)
@@ -289,10 +307,6 @@ function MoveTypeGround(tType, source, x, y, z, color, amount, range)
 	return false
 end
 
-function Print(text)
-	print(text)
-end
-
 function MoveItem(id, destination, x, y, amount)
 	amount = amount or 60000
 	
@@ -304,6 +318,14 @@ function MoveItem(id, destination, x, y, amount)
 		UO.DropC(destination, x, y)
 	end
 	return
+end
+
+function Print(text)
+	print(text)
+end
+
+function Stop()
+	stop()
 end
 
 function MoveType(tType, source, destination, x, y, color, amount, range)
@@ -428,6 +450,11 @@ function TargetTile(tType, x, y, z, targetKind)
 	return
 end
 
+function InRange(id, range)
+	local t = ScanItems(true, {ID=id, Dist=range})
+	return #t ~= 0
+end
+
 function WaitForTarget(timeout)
 	timeout = timeout or 3000
 	local i = 0
@@ -447,6 +474,16 @@ end
 
 function Rename(id, name)
 	RenamePet(id, name)
+end
+
+function Dismount()
+  UO.LObjectID = UO.CharID
+  UO.Macro(17, 0)
+end
+
+function Mount(id)
+  UO.LObjectID = id
+  UO.Macro(17, 0)
 end
 
 function X(id)
@@ -663,6 +700,157 @@ function UseSkill(skill)
 	end
 end
 
+function GetSkill(skill)
+	if skill == "Anatomy" then		
+		nNorm, nReal, nCap, nLock = UO.GetSkill("anat")
+		return nNorm
+	elseif skill == "Animal Lore" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("anil")
+		return nNorm
+	elseif skill == "Animal Taming" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("anim")
+		return nNorm
+	elseif skill == "Arms Lore" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("arms")
+		return nNorm
+	elseif skill == "Begging" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("begg")
+		return nNorm
+	elseif skill == "Cartography" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("cart")
+		return nNorm
+	elseif skill == "Detecting Hidden" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("dete")
+		return nNorm
+	elseif skill == "Discordance" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("disc")
+		return nNorm
+	elseif skill == "Evaluating Intelligence" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("eval")
+		return nNorm
+	elseif skill == "Forensic Evaluation" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("fore")
+		return nNorm
+	elseif skill == "Hiding" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("hidi")
+		return nNorm
+	elseif skill == "Inscription" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("insc")
+		return nNorm
+	elseif skill == "Item Identification" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("item")
+		return nNorm
+	elseif skill == "Meditation" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("medi")
+		return nNorm
+	elseif skill == "Peacemaking" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("peac")
+		return nNorm
+	elseif skill == "Poisoning" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("pois")
+		return nNorm
+	elseif skill == "Provocation" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("prov")
+		return nNorm
+	elseif skill == "Remove Trap" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("remo")
+		return nNorm
+	elseif skill == "Spirit Speak" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("spir")
+		return nNorm
+	elseif skill == "Stealing" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("stea")
+		return nNorm
+	elseif skill == "Stealth" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("stlt")
+		return nNorm
+	elseif skill == "Taste Identification" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("tast")
+		return nNorm
+	elseif skill == "Tracking" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("trac")
+		return nNorm
+	elseif skill == "Necromancy" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("necr")
+		return nNorm
+	elseif skill == "Alchemy" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("alch")
+		return nNorm
+	elseif skill == "Blacksmithy" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("blac")
+		return nNorm	
+	elseif skill == "Bowcrafting" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("bowc")
+		return nNorm
+	elseif skill == "Bushido" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("bush")
+		return nNorm
+	elseif skill == "Carpentry" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("carp")
+		return nNorm
+	elseif skill == "Chivalry" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("chiv")
+		return nNorm
+	elseif skill == "Cooking" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("cook")
+		return nNorm
+	elseif skill == "Fishing" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("fish")
+		return nNorm
+	elseif skill == "Focus" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("focu")
+		return nNorm
+	elseif skill == "Lockpicking" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("lock")
+		return nNorm
+	elseif skill == "Lumberjacking" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("lumb")
+		return nNorm
+	elseif skill == "Magery" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("mage")
+		return nNorm
+	elseif skill == "Ninjitsu" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("ninj")
+		return nNorm
+	elseif skill == "Resisting Spells" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("resi")
+		return nNorm
+	elseif skill == "Snooping" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("snoo")
+		return nNorm
+	elseif skill == "Tailoring" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("tail")
+		return nNorm
+	elseif skill == "Tinkering" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("tink")
+		return nNorm
+	elseif skill == "Veterinary" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("vete")
+		return nNorm
+	elseif skill == "Archery" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("arch")
+		return nNorm
+	elseif skill == "Fencing" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("fenc")
+		return nNorm
+	elseif skill == "Mace Fighting" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("mace")
+		return nNorm
+	elseif skill == "Parrying" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("parr")
+		return nNorm
+	elseif skill == "Swordsmanship" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("swor")
+		return nNorm
+	elseif skill == "Tactics" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("tact")
+		return nNorm
+	elseif skill == "Wrestling" then
+		nNorm, nReal, nCap, nLock = UO.GetSkill("wres")
+		return nNorm
+	end
+end
+
 function Run(direction)
 	if direction == "Northeast" then
 		UO.Macro(5, 2)
@@ -682,6 +870,19 @@ function Run(direction)
 		UO.Macro(5, 5)
 	end
 end
+
+function Mana()
+	return UO.Mana
+end
+
+function Stamina()
+	return UO.Stamina
+end
+
+function Hits()
+	return UO.Hits
+end
+
 
 function WaitForContKind(kind, timeout)
 	timeout = getticks() + timeout

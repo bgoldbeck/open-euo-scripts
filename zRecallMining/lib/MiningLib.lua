@@ -170,13 +170,15 @@ function OffsetGumpClick(x, y, kind, dbl)
 end
 
 function WaitForTarget(timeout)
-	local step = math.ceil(timeout / 5)
-	for i = 1, step do
-		wait(5)
+	timeout = timeout or 3000
+	local i = 0
+	repeat
 		if UO.TargCurs == true then
 			return true
 		end
-	end
+		Pause(10)
+		i = i + 10
+	until i >= timeout
 	return false
 end
 
@@ -779,9 +781,7 @@ function PrintIngotDetails(source)
 end
 
 function InRange(id, range)
-
 	local t = ScanItems(true, {ID=id, Dist=range})
-	
 	return #t ~= 0
 end
 
