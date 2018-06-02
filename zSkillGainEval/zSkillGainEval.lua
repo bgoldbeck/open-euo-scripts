@@ -18,7 +18,7 @@ while not Dead(self) do
   if evalTimer:Dif() > 60000 then
 
     UseSkill("Evaluating Intelligence")
-    Print(GetSkill("Evaluating Intelligence"))
+    Print(GetSkill("Evaluating Intelligence") / 10)
     WaitForTarget(2500)
     Target(self)
     evalTimer:Clear()      

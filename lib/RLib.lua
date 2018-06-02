@@ -703,151 +703,151 @@ end
 function GetSkill(skill)
 	if skill == "Anatomy" then		
 		nNorm, nReal, nCap, nLock = UO.GetSkill("anat")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Animal Lore" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("anil")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Animal Taming" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("anim")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Arms Lore" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("arms")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Begging" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("begg")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Cartography" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("cart")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Detecting Hidden" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("dete")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Discordance" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("disc")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Evaluating Intelligence" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("eval")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Forensic Evaluation" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("fore")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Hiding" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("hidi")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Inscription" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("insc")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Item Identification" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("item")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Meditation" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("medi")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Peacemaking" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("peac")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Poisoning" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("pois")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Provocation" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("prov")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Remove Trap" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("remo")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Spirit Speak" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("spir")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Stealing" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("stea")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Stealth" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("stlt")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Taste Identification" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("tast")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Tracking" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("trac")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Necromancy" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("necr")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Alchemy" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("alch")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Blacksmithy" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("blac")
-		return nNorm	
+		return nNorm / 10	
 	elseif skill == "Bowcrafting" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("bowc")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Bushido" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("bush")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Carpentry" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("carp")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Chivalry" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("chiv")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Cooking" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("cook")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Fishing" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("fish")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Focus" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("focu")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Lockpicking" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("lock")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Lumberjacking" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("lumb")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Magery" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("mage")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Ninjitsu" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("ninj")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Resisting Spells" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("resi")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Snooping" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("snoo")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Tailoring" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("tail")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Tinkering" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("tink")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Veterinary" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("vete")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Archery" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("arch")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Fencing" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("fenc")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Mace Fighting" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("mace")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Parrying" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("parr")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Swordsmanship" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("swor")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Tactics" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("tact")
-		return nNorm
+		return nNorm / 10
 	elseif skill == "Wrestling" then
 		nNorm, nReal, nCap, nLock = UO.GetSkill("wres")
-		return nNorm
+		return nNorm / 10
 	end
 end
 
