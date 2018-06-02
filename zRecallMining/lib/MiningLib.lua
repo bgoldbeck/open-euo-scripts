@@ -31,7 +31,7 @@ amethystType     = 3862
 citrineType      = 3861
 sapphireType     = 3865
 
-ironValue        = 8
+ironValue        = 10
 dullCopperValue  = 13
 shadowValue      = 19
 copperValue      = 22
@@ -729,11 +729,15 @@ function DepositToCrate(crateID)
 	while MoveType(12690, UO.BackpackID, crateID, 60, 140, 0) do
 		wait(715)
 	end
+    -- Blue Diamond
+	while MoveType(12696, UO.BackpackID, crateID, 60, 140, 0) do
+		wait(715)
+	end
 	
 	-- Iron Ingots
 	local ironIngotCount = ItemTypeCount(ingotType, UO.BackpackID)
-	if ironIngotCount > 30 then
-		MoveType(ingotType, UO.BackpackID, crateID, ironIngotCount - 30, 0x0, 0, 0)
+	if ironIngotCount > 12 then
+		MoveType(ingotType, UO.BackpackID, crateID, ironIngotCount - 12, 0x0, 0, 0)
 		wait(700)
 	end
 end
@@ -821,13 +825,14 @@ function MineTiles(tileKind, beetleID)
 				--print("type " .. nType)
 				if string.find(mineabletiles,'_' .. nType ..'_') then
 				
-					--print("Mining some ore! " .. sName) 
+					print("Mining some ore! " .. sName) 
 					--Start mining loop.
 					
 					while not OverWeight() do
-						print("Mining some ore! " .. sName) 
+						--print("Mining some ore! " .. sName) 
 						--ScavengeOre()
 						UseType(pickaxeType, UO.BackpackID)
+
 						UO.LTargetKind = tileKind
 						UO.LTargetTile = nType
 						UO.LTargetX = tileX

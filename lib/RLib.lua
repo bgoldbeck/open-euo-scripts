@@ -189,13 +189,19 @@ function Msg(text)
 	UO.Macro(1, 0, text)
 end
 
-function Hits(n)
-  local i,nID,nHP,_ = 0
-  repeat
-   _,_,_,_,_,_,nID,_,nHP = UO.GetCont(i)
-   i = i + 1
-  until nID==n or nID==nil
-  return nHP
+function Hits(id)
+	local i,nID,nHP,_ = 0
+	id = id or UO.CharID
+	repeat
+		_,_,_,_,_,_,nID,_,nHP = UO.GetCont(i)
+		i = i + 1
+	until nID==id or nID==nil
+  
+	if nID == nil then
+		return nil
+	end
+  
+	return nHP
 end
 
 function Dead(id)
@@ -877,10 +883,6 @@ end
 
 function Stamina()
 	return UO.Stamina
-end
-
-function Hits()
-	return UO.Hits
 end
 
 

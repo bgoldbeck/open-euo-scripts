@@ -20,19 +20,24 @@ local beetleID                = 80767836
 --=================================================================================--
 --==============================END SETUP==========================================--  
 --=================================================================================--
-print(InRange(beetleID, 1))
+
 PrintIngotDetails(crateID)       
   
 
 local result = UO.TileInit(true)
 if result == false then
   print("Could not init tiles!")
-end                   
+end   
+         
+   
 journal = journal:new()
       
 local allGoldEarned = 0
 local allOreMinedTotal = 0
 local allTimeTaken     = 0
+        
+--Digger(beetleID)
+--stop()  
 
 for loop = 1, passes do
 
@@ -117,16 +122,14 @@ for loop = 1, passes do
           end
         end
       end
-                     
+      Mount(beetleID)           
       goldEarnedLog[#goldEarnedLog + 1] = PrintIngotDetails(UO.BackpackID) 
       mineralLog[counter] = ItemTypeCount(ingotType, UO.BackpackID)
       print("Amount of Ingot gathered here: " .. mineralLog[counter] )
       
       --Go to home
       print(" ")
-      if (ItemTypeCount(ingotType, UO.BackpackID) ~= 0) then
-      
-                  
+      if (ItemTypeCount(ingotType, UO.BackpackID) > 400) or counter == 16 then                  
         currentPosX = UO.CharPosX   
         currentPosY = UO.CharPosY
         while currentPosX == UO.CharPosX and currentPosY == UO.CharPosY do
@@ -203,7 +206,7 @@ local earnedPerSecond = round(allGoldEarned/allTimeTaken)
 local earnedPerHour = round(earnedPerSecond * 3600)
 print("You are earning " .. earnedPerSecond .. "gp per sec ((" .. earnedPerHour .. "gp per hour))")
 
-DepositPickaxe(crateID)   
+--DepositPickaxe(crateID)   
 --DepositGloves(crateID)
 
 UO.Msg("/".. allTimeTaken .. string.char(13))
