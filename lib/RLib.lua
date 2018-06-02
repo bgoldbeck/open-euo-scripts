@@ -385,9 +385,9 @@ function UseObject(id)
 	UO.Macro(17, 0)
 end
 
-function UseType(tType, color, source, range)
-	targetKind = targetKind or 1
-	local found = FindType(tType, color, source, range)
+function UseType(tType, color, source)
+    -- FindType(tType, color, source, amount, range)
+	local found = FindType(tType, color, source)
 	if (#found > 0) then
 		UseObject(found[1].ID)
 	end
@@ -490,6 +490,7 @@ function Mount(id)
 end
 
 function X(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].X
@@ -498,6 +499,7 @@ function X(id)
 end
 
 function Y(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Y
@@ -506,6 +508,7 @@ function Y(id)
 end
 
 function Z(id)
+	id = id or self
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Z
