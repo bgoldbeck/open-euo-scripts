@@ -205,14 +205,11 @@ function Hits(id)
 end
 
 function Dead(id)
+	if id == self then
+	    return UO.Hits == 0
+	end
+	
 	return Hits(id) == 0
-	--local found = FindObject(id)
-	--if #found > 0 then
-		--if found[1].Type == 400 then
-			--return false
-		--end
-	--end
-	--return true
 end
 
 function FindTileType(tType, range)
