@@ -1,0 +1,40 @@
+130914-172833: !c:\users\brandon\downloads\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130917-173938: !c:\users\brandon\downloads\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130919-174009: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130919-214922: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130920-152836: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130921-143618: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130922-234236: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+130923-183529: ...m files\ultima online classic\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160626-185653: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160628-100516: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160628-101048: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160628-110755: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160628-110938: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160701-193722: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160705-085710: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160705-200043: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160705-222022: !c:\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160705-232614: !d:\daoc\euox\openeuo\gui\layout.lua:434: ERR_WRONGPAR
+160706-211511: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160706-211757: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160706-211814: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160706-232232: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160707-191714: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160707-191817: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160707-202159: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160710-145224: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160710-145434: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160710-145502: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160710-161433: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160710-230131: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160711-193012: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160711-193307: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160716-194635: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+160727-220239: !d:\daoc\euox\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-141533: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-142305: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-142739: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-142741: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-143104: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR
+180527-143112: !c:\users\user\documents\openeuo\gui\layout.lua:477: ERR_WRONGPAR

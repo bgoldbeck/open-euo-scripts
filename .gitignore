@@ -1,0 +1,2 @@
+# Should keep target directory from being included in git pushes.
+zStayAutoLogin

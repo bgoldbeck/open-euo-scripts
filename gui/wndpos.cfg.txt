@@ -1,0 +1,6 @@
+MainForm.Left = 1526
+MainForm.Top = 216
+MainForm.Width = 700
+MainForm.Height = 887
+OutputPanel.Height = 74
+VarPanel.Width = 150

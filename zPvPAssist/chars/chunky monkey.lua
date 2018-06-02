@@ -1,0 +1,11 @@
+isVerbose = true
+useAnyItemDelay = 690
+isOpeningDoors = true
+aUONextHumanKey = "F3"
+targetNearestHumanKey = "F2"
+isChugHealOnLow = false
+chugHealPotHealth = 50
+isChugCureOnPoison = false
+isChugRefreshPotion = false
+chugRefreshPotOnStamina = 10
+isAutoParaPouch = true
