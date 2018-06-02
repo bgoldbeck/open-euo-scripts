@@ -6,7 +6,14 @@ end
        
 --ignoreobject:Push(UO.CharID)  -- Ignore self for player detection  
 
-local water = {6041, 6039, 6044, 6043, 6042, 6040}
+local waterTypes = {6041, 6039, 6044, 6043, 6042, 6040}
+local cutTypes = {2508, 2511, 2510, 2509} -- Regular Fish 
+local consumeTypes = {3542}
+local scissorTypes = {}
+local garbageTypes = {5904} -- Shoes
+
+local hatchetType = 3907
+local scissorType = 3998
 local waterKind = 2
 local poleType = 3519
 local recallFromPlayers = true
@@ -33,8 +40,8 @@ while UO.Hits > 0 do
   nCnt = UO.TileCnt(x, y)
   for i = 1, nCnt do
     nType,tileZ,sName,nFlags = UO.TileGet(x, y, i)
-    for j = 1, #water do
-      if nType == water[j] then
+    for j = 1, #waterTypes do
+      if nType == waterTypes[j] then
         waterTileType = nType
         break
       end
@@ -43,19 +50,41 @@ while UO.Hits > 0 do
   if waterTileType ~= 0 then
     --CancelTarget()
     Pause(100)
-    UseObject(pole)
-    --Pause(1000)
-    WaitForTarget(2500)
-    Pause(250)
-    TargetTile(waterTileType, X() + 3, Y() - 3, Z(), waterKind)
-    Pause(1500)
+    for loop = 0, 1 do
+      UseObject(pole)
+      WaitForTarget(2500)
+      Pause(250)
+      if loop == 0 then
+        TargetTile(waterTileType, X() - 3, Y() - 3, Z(), waterKind)
+      else
+        TargetTile(waterTileType, X() + 3, Y() - 3, Z(), waterKind)
+      end
+      Pause(7500)
+    end
     local jres = journal:Find("biting")
     if jres == 1 then
       Msg("Forward one", 65)
       journal:Clear()
     end
-  end	    
-      	  	      
+  end	   
+  -- Cut stuff up 
+  for i = 1, #cutTypes do
+    local cut = FindType(cutTypes[i], nil, backpack)
+    if #cut > 0 then
+      UseType(hatchetType, nil, backpack)
+      WaitForTarget(2500)
+      Target(cut[1].ID)
+      Pause(700)
+    end
+  end
+  -- Scissor stuff up
+  for i = 1, #scissorTypes do
+  end    
+  -- Eat consume stuff up      
+  for i = 1, #consumeTypes do
+    UseType(consumeTypes[i], nil, backpack)
+    Pause(700)  
+  end    	  	      
 end
 
 

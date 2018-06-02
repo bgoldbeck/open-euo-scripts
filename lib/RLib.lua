@@ -388,9 +388,9 @@ function UseObject(id)
 	UO.Macro(17, 0)
 end
 
-function UseType(tType, color, source, range)
-	targetKind = targetKind or 1
-	local found = FindType(tType, color, source, range)
+function UseType(tType, color, source)
+    -- FindType(tType, color, source, amount, range)
+	local found = FindType(tType, color, source)
 	if (#found > 0) then
 		UseObject(found[1].ID)
 	end
