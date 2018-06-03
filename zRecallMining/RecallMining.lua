@@ -143,7 +143,7 @@ for loop = 1, passes do
           UO.Macro(5, 1)
         end
       
-        wait(1000)
+        wait(4000)
       
       
         --Deposit Ore

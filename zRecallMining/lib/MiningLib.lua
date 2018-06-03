@@ -741,6 +741,7 @@ function DepositToCrate(crateID)
 	-- Iron Ingots
 	local ironIngotCount = ItemTypeCount(ingotType, UO.BackpackID)
 	if ironIngotCount > 12 then
+	    wait(700)
 		MoveType(ingotType, UO.BackpackID, crateID, ironIngotCount - 12, 0x0, 0, 0)
 		wait(700)
 	end
