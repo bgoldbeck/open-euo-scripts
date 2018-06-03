@@ -654,7 +654,7 @@ function DepositToCrate(crateID)
 		wait(715)
 	end
 	--Valorite
-	while MoveTypeWithColor(ingotType, UO.BackpackID, crateID, 30, 1348, 0, 100) do
+	while MoveTypeWithColor(ingotType, UO.BackpackID, crateID, 30, 2219, 0, 100) do
 		wait(715)
 	end
 	--Verite
@@ -717,6 +717,10 @@ function DepositToCrate(crateID)
 	while MoveType(3880, UO.BackpackID, crateID, 60, 140, 0) do
 		wait(715)
 	end
+		-- Blackrock
+	while MoveType(3882, UO.BackpackID, crateID, 60, 140, 0) do
+		wait(715)
+	end
     -- Perfect Emerald
 	while MoveType(12692, UO.BackpackID, crateID, 60, 140, 0) do
 		wait(715)
@@ -751,7 +755,7 @@ function PrintIngotDetails(source)
 	    if t[i].Col == 0        then 
 			print(t[i].Type .. " : " .. t[i].Stack .. " " .. t[i].Name .. " : " .. "Iron " .. "|Value: (" .. (t[i].Stack * ironValue) .."gp)|") 
 			goldValue = goldValue + (t[i].Stack * ironValue)
-	    elseif t[i].Col == 1348 then 
+	    elseif t[i].Col == 2219 then 
 			print(t[i].Type .. " : " .. t[i].Stack .. " "  .. t[i].Name .. " : " .. "Valorite " .. "|Value: (" .. (t[i].Stack * valoriteValue) .."gp)|") 
 			goldValue = goldValue + (t[i].Stack * valoriteValue)
 	    elseif t[i].Col == 2207 then 

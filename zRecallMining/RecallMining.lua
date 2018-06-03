@@ -6,8 +6,8 @@ local passes  = 1
 --Runebook IDs 
 local bookIDs = {}    
 --Please add as many of these lines as you want!        
-bookIDs[#bookIDs + 1]         = 1154159438 -- Book 1       
---bookIDs[#bookIDs + 1]         = 0 -- Book 2       
+--bookIDs[#bookIDs + 1]         = 1154159438 -- Book 1       
+bookIDs[#bookIDs + 1]         = 1118512402 -- Book 2       
 --bookIDs[#bookIDs + 1]         = 1087528152 -- Book 3   
 --bookIDs[#bookIDs + 1]         = 1087524651 -- Book 4   
 --End runebooks
