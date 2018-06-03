@@ -10,7 +10,7 @@ local waterTypes = {6041, 6039, 6044, 6043, 6042, 6040}
 local cutTypes = {2508, 2511, 2510, 2509} -- Regular Fish 
 local consumeTypes = {3542}
 local scissorTypes = {}
-local garbageTypes = {5904} -- Shoes
+local garbageTypes = {5899, 5900, 5902, 5901, 5903, 5904, 5905, 5906} 
 
 local hatchetType = 3907
 local scissorType = 3998
@@ -29,13 +29,14 @@ if #pole == 0 then
   HeadMsg("Where is my fucking pole?", 39)
   Stop()
 end  
+
 pole = pole[1].ID
   
-while UO.Hits > 0 do
+while UO.Hits > 0 do     
   Pause(150)
     
   local x = UO.CharPosX
-  local y = UO.CharPosY - 1
+  local y = UO.CharPosY - 2
   local waterTileType = 0	
   nCnt = UO.TileCnt(x, y)
   for i = 1, nCnt do
@@ -46,9 +47,8 @@ while UO.Hits > 0 do
         break
       end
     end
-  end
+  end           
   if waterTileType ~= 0 then
-    --CancelTarget()
     Pause(100)
     for loop = 0, 1 do
       UseObject(pole)
@@ -80,10 +80,17 @@ while UO.Hits > 0 do
   -- Scissor stuff up
   for i = 1, #scissorTypes do
   end    
+  -- Scissor stuff up
+  for i = 1, #garbageTypes do
+    if MoveTypeGround(garbageTypes[i], backpack, X(), Y() + 1, Z()) == true then
+      Pause(700)
+    end
+  end    
   -- Eat consume stuff up      
   for i = 1, #consumeTypes do
-    UseType(consumeTypes[i], nil, backpack)
-    Pause(700)  
+    if UseType(consumeTypes[i], nil, backpack) == true then
+      Pause(700)  
+    end
   end    	  	      
 end
 
