@@ -176,7 +176,7 @@ function WaitForTarget(timeout)
 		if UO.TargCurs == true then
 			return true
 		end
-		Pause(10)
+		wait(10)
 		i = i + 10
 	until i >= timeout
 	return false
@@ -484,9 +484,10 @@ function RecallFromRunebook(runebookID, spot, right)
 	    xRecallClick = 300
 	end
 
+	wait(890)
 	UO.LObjectID = runebookID
 	UO.Macro(17, 0)
-	wait(1000)
+	wait(890)
 	while UO.ContKind ~= runeBookContKind do
 	    UO.LObjectID = runebookID
 		UO.Macro(17, 0)
@@ -717,8 +718,12 @@ function DepositToCrate(crateID)
 	while MoveType(3880, UO.BackpackID, crateID, 60, 140, 0) do
 		wait(715)
 	end
-		-- Blackrock
+	-- Blackrock
 	while MoveType(3882, UO.BackpackID, crateID, 60, 140, 0) do
+		wait(715)
+	end
+	-- Blackrock
+	while MoveType(3883, UO.BackpackID, crateID, 60, 140, 0) do
 		wait(715)
 	end
     -- Perfect Emerald
@@ -843,19 +848,21 @@ function MineTiles(tileKind, beetleID)
 						UO.LTargetX = tileX
 						UO.LTargetY = tileY
 						UO.LTargetZ = tileZ
+						WaitForTarget(250)
 						TargetLast()
-						wait(700)
-						local jres = journal:find("too far away", "that location", "no metal", "be seen.", "mine that.", "mine there.")
+						wait(250)
+						local jres = journal:find("riding or flying", "too far away", "that location", "no metal", "be seen.", "mine that.", "mine there.")
 						if jres ~= nil then
 							break    
 						end
 						TinkerPickaxeCheck()
 					end
 					
-					BeetleSmelt(bigOreType, beetleID)
-					BeetleSmelt(smallOreType, beetleID)
-					BeetleSmelt(scatterOreType, beetleID)
-					
+					if OverWeight() then
+						BeetleSmelt(bigOreType, beetleID)
+						BeetleSmelt(smallOreType, beetleID)
+						BeetleSmelt(scatterOreType, beetleID)
+					end
 					
 					if OverWeight() then
 					    print("overweight, stop digging")
@@ -876,6 +883,10 @@ function Digger(beetleID)
 	Dismount()
 	MineTiles(2, beetleID)
 	MineTiles(3, beetleID)
+	
+	BeetleSmelt(bigOreType, beetleID)
+	BeetleSmelt(smallOreType, beetleID)
+	BeetleSmelt(scatterOreType, beetleID)
 end
 
 function Dismount()

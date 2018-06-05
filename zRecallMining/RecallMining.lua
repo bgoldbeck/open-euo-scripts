@@ -6,10 +6,9 @@ local passes  = 1
 --Runebook IDs 
 local bookIDs = {}    
 --Please add as many of these lines as you want!        
---bookIDs[#bookIDs + 1]         = 1154159438 -- Book 1       
-bookIDs[#bookIDs + 1]         = 1118512402 -- Book 2       
---bookIDs[#bookIDs + 1]         = 1087528152 -- Book 3   
---bookIDs[#bookIDs + 1]         = 1087524651 -- Book 4   
+bookIDs[#bookIDs + 1]         = 1154159438 -- Book 1       
+--bookIDs[#bookIDs + 1]         = 1118512402 -- Book 2       
+   
 --End runebooks
          
 --local bankID                  = 1096753503   --Your bank ID.         
@@ -80,7 +79,9 @@ for loop = 1, passes do
       print(" ")    
       print("Recalling to location -=-(" .. counter .. ")-=-")  
       --Wait until recall goes off.
+      local retry = 0
       while currentPosX == UO.CharPosX and currentPosY == UO.CharPosY do
+        retry = retry + 1
         RecallFromRunebook(bookIDs[runebookNo], i, j)       
         wait(300)
         for z = 1, 100 do
@@ -89,6 +90,9 @@ for loop = 1, passes do
             break
           end
         end         
+        if retry >= 5 then
+          break
+        end
       end 
       wait(100) 
               
@@ -125,11 +129,14 @@ for loop = 1, passes do
       Mount(beetleID)           
       goldEarnedLog[#goldEarnedLog + 1] = PrintIngotDetails(UO.BackpackID) 
       mineralLog[counter] = ItemTypeCount(ingotType, UO.BackpackID)
-      print("Amount of Ingot gathered here: " .. mineralLog[counter] )
-      
+      if counter ~= 1 then
+        print("Amount of Ingot gathered here: " .. mineralLog[counter] - mineralLog[counter - 1])
+      else
+        print("Amount of Ingot gathered here: " .. mineralLog[counter])
+      end    
       --Go to home
       print(" ")
-      if (ItemTypeCount(ingotType, UO.BackpackID) > 400) or counter == 16 then                  
+      if (ItemTypeCount(ingotType, UO.BackpackID) > 500) or counter == 16 then                  
         currentPosX = UO.CharPosX   
         currentPosY = UO.CharPosY
         while currentPosX == UO.CharPosX and currentPosY == UO.CharPosY do
