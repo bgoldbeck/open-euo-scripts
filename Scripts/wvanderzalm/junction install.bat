@@ -1,4 +1,4 @@
-set Openeuodir=c:\program files\ultima online classic\openeuo
+set Openeuodir=c:\users\user\documents\openeuo
 set Uodir=C:\Program Files (x86)\Electronic Arts\Ultima Online Classic
 
 @echo off

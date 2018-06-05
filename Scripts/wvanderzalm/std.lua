@@ -14,10 +14,10 @@ if STDINIT then return true end
 print("std.lua init")
 STDINIT = true   
                                                 
-dofile("MulHandles.lua")
-dofile("Tile.lua") 
-dofile("LineOfSight.lua")  
-dofile("Class.lua")  
+dofile(getinstalldir().."scripts/wvanderzalm/MulHandles.lua")
+dofile(getinstalldir().."Scripts/wvanderzalm/Tile.lua") 
+dofile(getinstalldir().."Scripts/wvanderzalm/LineOfSight.lua")  
+dofile(getinstalldir().."Scripts/wvanderzalm/Class.lua")  
                          
 DynamicsRefresh()   
 Layers={    

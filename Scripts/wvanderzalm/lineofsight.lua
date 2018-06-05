@@ -1,7 +1,7 @@
 --TODO:
 -- Add "see through" terrain
 --
-dofile(getinstalldir().."Scripts/wvanderzalm/class.lua") 
+dofile(getinstalldir().."Scripts/wvanderzalm/Class.lua") 
 dofile(getinstalldir().."Scripts/wvanderzalm/Tile.lua")  
 
 Point3D=class()

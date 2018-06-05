@@ -15,100 +15,60 @@
 --Map 3 :Malas
 --Map 4 :Tokuno
 --Map 5 :Ter Mur  
-
---###################################################################################
---## The following code determines if the required Junction to UO folder           ## 
---## has been created, If not, a batch file needs to be created and installed      ##  
---## The contents of this batch file are all bellow and are written at runtime     ##
---###################################################################################
-function CheckJunctionInstall()
-  local f = openfile(getinstalldir().."Ultima Online Classic/Login.cfg")
-  if f then 
-    print('Junction:"Ultima Online Classic" Installed Correctly') 
-    f:close()
-    return true
-  end
-  print('!!! Fatal Error !!! Junction:"Ultima Online Classic" Installed Incorrectly') 
-
-  local str="set Openeuodir="..string.sub(getinstalldir(),1,string.len(getinstalldir())-1)..'\n'
-  str=str..[[set Uodir=C:\Program Files (x86)\Electronic Arts\Ultima Online Classic
-
-@echo off
-color 2
-title Wesley's Ultime Online Junction Installer
-cls
+UOPMagicNumber = 0x0050594D 
+Mulhandles_Installed=false
+local dir_data=getinstalldir().."UO Data Files\\"    
+local dir_art_bmp=getinstalldir().."Art.bmp"
+local dir_gump_bmp=getinstalldir().."Gump.bmp"
+local dir_sound_wav=getinstalldir().."Sound.wav"
+local filelist={"art.mul","artidx.mul","Cliloc.enu","gumpart.mul","gumpidx.mul","metrics.txt","sound.mul","soundidx.mul","tiledata.mul"}
+for i=0,5 do
+  table.insert(filelist,"map"..i..".mul") 
+  table.insert(filelist,"staidx"..i..".mul")   
+  table.insert(filelist,"statics"..i..".mul")        
+end           
 
 
-echo Welcome to Wesley's Ultime Online Junction Installer
-echo. 
-echo By executing the included command line, you will be creating a link to your 
-echo Ultima Online game files. This link in theory could allow OpenEUO scripts to
-echo harm, change, or corrupt said files.
-echo.
-echo I am not responsible for the misuse of this link.
-:invalid_choice
-set /p choice=Install Junction? (y/n): 
-if %choice%==y goto yes
-if %choice%==n exit
-echo invalid choice: %choice%
-goto invalid_choice
 
-:yes
-cls
-echo OpenEUO directory is "%Openeuodir%"  
-echo Ultima Online directory is "%Uodir%"
-echo.
-echo "n" will allow you to input different locations.
-:invalid_choice2
-set /p choice=Confirm these locations! (y/n): 
-if %choice%==y goto confirm
-if %choice%==n goto input
-echo invalid choice: %choice%
-goto invalid_choice2
+local data_Staidx,data_Statics,data_Map,data_Tile,data_Gumpidx,data_Gumpart="","","","","",""                                            
 
-:input
-cls
-echo OK, So you want to type the directorys in? If you open this file in Notepad, 
-echo you can paste the directories in the first two lines!
-echo.
-echo Enter OpenEUO directory (eg. "c:\Openeuo" with no quotations) 
-set /p Openeuodir=OEUO:
-echo Enter Ultima directory (eg. "c:\UO" with no quotations) 
-set /p Uodir=UO:
-goto yes
 
-:confirm
-set Openeuodir="%Openeuodir%\Ultima Online Classic"
-set Uodir="%Uodir%"
 
-MKLINK /J %Openeuodir% %Uodir%
-pause
-echo on]]
-  local f = openfile(getinstalldir().."Scripts\\wvanderzalm\\Junction Install.bat","w+b")
-  if f then 
-    print('"'..getinstalldir()..'Scripts\\wvanderzalm\\Junction Install.bat" has been created') 
-    f:write(str)
-    f:close()
-    print('Please run the file "'..getinstalldir()..'Scripts\\wvanderzalm\\Junction Install.bat"')
-    print('Follow its directions as best you can, or refer to the OpenEUO forum for help.')
-  else
-    print('!!! Fatal Error !!! Please Create "'..getinstalldir()..'Scripts\\wvanderzalm\\Junction Install.bat"') 
-  end
-  stop()
+
+function Install_Mulhandles()
+  local install_OK=true
+  for i=1,#filelist do
+    local f = openfile(dir_data..filelist[i])
+    if not f then                
+      install_OK=false
+      print('ERROR : Missing file ['..dir_data..filelist[i]..']') 
+    else
+      f:close()
+    end
+  end       
+  if install_OK then print('Ultima Online Data Files were installed correctly') end    
+  Mulhandles_Installed=install_OK
+  return install_OK
 end
+
+
+
+
+
 --################################################################################### 
   if MULHANDLESINIT then return end
-  CheckJunctionInstall()
+  --CheckJunctionInstall()
+  if not Install_Mulhandles() then 
+    print('FATAL ERROR : Ultima Online Data Files were NOT installed correctly!') 
+    print('FATAL ERROR : Pausing!')
+    pause() 
+  end
   print("mulhandles.lua init")
   MULHANDLESINIT = true  
 
-local data_Staidx,data_Statics,data_Map,data_Tile,data_Gumpidx,data_Gumpart="","","","","",""
-function mulhandels_init(str)
-      print("Remove me!")--after a while
-end
 
 function Read(Var,Start,Len)
-  if Len > 4 then print("About to multiply 256^"..(Len-1).." Contiune?") pause() end
+  if Len > 10 then print("About to multiply 256^"..(Len-1).." Contiune?") pause() end
   local val=0
   local data={string.byte(Var,Start,Start+Len)}
   for i=Len,1,-1 do val=val+data[i]*math.pow(256,i-1) end
@@ -126,12 +86,47 @@ function NumberToString(IN,Len)
     for i=1,Len-I do OUT=OUT..string.char(0) end   
   end
   return OUT     
-end               
+end   
+
+function CompVer(a,b)
+  if type(a)=="table" then 
+  else 
+    if type(a)=="string" then                                                 
+      local temp={}
+      for w in string.gmatch(a,"%d+") do table.insert(temp,tonumber(w)) end    
+      a=temp
+    elseif type(a)=="number" then a={a}
+    else
+      return "err"
+    end    
+  end
+  if type(b)=="table" then
+  else
+    if type(b)=="string" then
+      local temp={}
+      for w in string.gmatch(b,"%d+") do table.insert(temp,tonumber(w)) end   
+      b=temp     
+    elseif type(b)=="number" then b={b}
+    else
+      return "err"
+    end  
+  end
+  if #a>#b then return "err" end
+  for i=1,#a do
+    if a[i]<b[i] then return -1 end
+    if a[i]>b[i] then return 1 end
+    if i==#a then return 0 end
+  end
+  return "err"
+end
+
+function IsUOPFormat()     end          
 
 
 function GetScreenResolution()
-  local f = openfile(getinstalldir().."Ultima Online Classic/metrics.txt","rb")   
-  local data=f:read("*l")   
+  local f = openfile(dir_data.."metrics.txt","rb")  
+  if f==nil then return false end 
+  local data=f:read("*l")       
   while data do      
     local s,e=string.find(data,"Desktop Resolution and Color Depth: ")   
     if s and e then 
@@ -142,7 +137,7 @@ function GetScreenResolution()
       s,e=string.find(RawRes,"x")
       local Height=string.sub(RawRes,1,e-1)  
       local Depth=string.sub(RawRes,e+1)
-      
+      f:close()
       return Width, Height, Depth
     end
     data=f:read("*l") 
@@ -151,7 +146,8 @@ function GetScreenResolution()
 end
 
 function GetGumpIdx(n)
-  local f = openfile(getinstalldir().."Ultima Online Classic/gumpidx.mul","rb")                      
+  local f = openfile(dir_data.."gumpidx.mul","rb") 
+  if f==nil then return false end                     
   local start = 1+n*12    
   f:seek("set",start-1)
   data_Gumpidx=f:read(12) 
@@ -164,18 +160,61 @@ function GetGumpIdx(n)
   return Lookup, Size, Width, Height
 end
 function GetLandArtIdx(n)
-  local f = openfile(getinstalldir().."Ultima Online Classic/artidx.mul","rb")                      
+  local file = openfile(dir_data.."artidx.mul","rb")  
+  if file==nil then return false end 
+--[[  if IsUOPFormat() and file==nil then 
+    file = openfile(getinstalldir().."Ultima Online Classic/artLegacyMUL.UOP","rb")   
+    data_artidx=file:read(28)                
+    local a={string.byte(data_artidx,1,28)}
+    local MagicNumber=a[4]*0x1000000+a[3]*0x10000+a[2]*0x100+a[1]  
+    local Version=a[8]*0x1000000+a[7]*0x10000+a[6]*0x100+a[5]     
+    local Misc=a[12]*0x1000000+a[11]*0x10000+a[10]*0x100+a[9]     
+    local StartAddress=a[20]*0x100000000000000+a[19]*0x1000000000000+a[18]*0x10000000000+a[17]*0x100000000+a[16]*0x1000000+a[15]*0x10000+a[14]*0x100+a[13]     
+    local BlockSize=a[24]*0x1000000+a[23]*0x10000+a[22]*0x100+a[21]     
+    local FileCount=a[28]*0x1000000+a[27]*0x10000+a[26]*0x100+a[25]   
+    local EntryList={}
+    local BlockList={}
+    
+    if MagicNumber ~= UOPMagicNumber then return false end
+    NextBlockAddress=StartAddress    
+    
+    while NextBlockAddress ~= 0L do  
+      file:seek("set",NextBlockAddress) 
+      data_artidx=file:read(12+FileCount*34)                   
+      local a={string.byte(data_artidx,1,12+FileCount*34)}     
+      local FileCount=Read(a,1,4)    
+      local NextBlockAddress=Read(a,5,8)
+      
+     -- table.insert(BlockList,)
+      for i=0,FileCount do                         
+        local Lookup=Read(a,12+i*34,)          
+        local Lookup=Read(a,12+i*34,)
+    
+    
+        table.insert(EntryList,)
+    
+    
+      end
+    end
+  
+  end ]]    
+           
+
+                    
+  
+  
   local start = 1+n*12 -- +0x8000   
-  f:seek("set",start-1)
-  data_artidx=f:read(12) 
-  f:close()                                          
+  file:seek("set",start-1)
+  data_artidx=file:read(12) 
+  file:close()                                          
   local a={string.byte(data_artidx,1,13)}
   local Lookup = a[4]*16777216+a[3]*65536+a[2]*256+a[1]+1 
   local Size = a[8]*16777216+a[7]*65536+a[6]*256+a[5]
   return Lookup, Size
 end
 function GetStaticArtIdx(n)
-  local f = openfile(getinstalldir().."Ultima Online Classic/artidx.mul","rb")                      
+  local f = openfile(dir_data.."artidx.mul","rb")  
+  if f==nil then return false end                    
   local start = (0x4000+n)*12+1--0x22819+n*12 -- +0x8000   
   f:seek("set",start-1)
   data_artidx=f:read(12) 
@@ -214,7 +253,8 @@ end
 function GetHue(n)
   n=n-1
   local Lookup, Size =n*88+(math.floor(n/8)*4),88
-  local f = openfile(getinstalldir().."Ultima Online Classic/hues.mul","rb")   
+  local f = openfile(dir_data.."hues.mul","rb")  
+  if f==nil then return false end 
   f:seek("set",Lookup)        
   data_art=f:read(Size)     
   local ColourTable ={}
@@ -234,7 +274,8 @@ function GetStaticArt(n,HueNum)
   local Lookup, Size =GetStaticArtIdx(n)
   local Hue=0 
   if HueNum and HueNum~=0 then Hue=GetHue(HueNum) end
-  local f = openfile(getinstalldir().."Ultima Online Classic/art.mul","rb")   
+  local f = openfile(dir_data.."art.mul","rb")      
+  if f==nil then return false end
   f:seek("set",Lookup-1)
   data_art=f:read(Size+2000)
   f:close()
@@ -254,7 +295,7 @@ function GetStaticArt(n,HueNum)
   for i = 0,Height do offset[i]=Read(data_art,count,2) count=count+2 end     
   count=(offset[0]+4+Height)*2+1   
     
-  local out = openfile(getinstalldir().."Art.bmp","w+b") 
+  local out = openfile(dir_art_bmp,"w+b") 
   out:setvbuf ("full") 
   out:write(GetBmpStart(Width,Height))      
   --Prints entire line to black,alpha=0
@@ -317,12 +358,16 @@ function GetLandArt(n)
   local row
         
         
-  local f = openfile(getinstalldir().."Ultima Online Classic/art.mul","rb")   
-  f:seek("set",Lookup)
-  data_art=f:read(Size)
-  f:close() 
+  local file = openfile(dir_data.."art.mul","rb")   
+  if file==nil then return false end
+  --[[if IsUOPFormat() and file==nil then 
+    file = openfile(getinstalldir().."Ultima Online Classic/artLegacyMUL.UOP","rb")
+  end  ]] 
+  file:seek("set",Lookup)
+  data_art=file:read(Size)
+  file:close() 
        
-  local out = openfile(getinstalldir().."Art.bmp","w+b") 
+  local out = openfile(dir_art_bmp,"w+b") 
   out:setvbuf ("full") 
   out:write(GetBmpStart(44,44))
       
@@ -366,23 +411,30 @@ function GetLandArt(n)
   end
   out:flush()
   out:close()
-  stop()    
 end  
 
 function GetGump(n)
   local Lookup, Size, Width, Height = GetGumpIdx(n) 
-  local f = openfile(getinstalldir().."Ultima Online Classic/gumpart.mul","rb")  
-  f:seek("set",Lookup-1)
-  data_Gumpart=f:read(Size)
-  f:close()
+  local file = openfile(dir_data.."gumpart.mul","rb")     
+  if IsUOPFormat() or file==nil then 
+    print("is uop")
+    file = openfile(dir_data.."gumpartLegacyMUL.uop","rb")
+  end                                                                                          
+  if file==nil then print("return no gump file!") return false end
+  
+  
+  file:seek("set",Lookup-1)
+  data_Gumpart=file:read(Size)
+  file:close()
   local x=1
   local count=0
   local cur=Size-3
   local zero , Dff=string.char(0) , string.char(0xff) 
   --local Dff=string.char(0xff)
-  local f = openfile(getinstalldir().."Gump.bmp","w+b")
-  f:setvbuf ("full") 
-  f:write(GetBmpStart(Width,Height))
+  local file = openfile(dir_gump_bmp,"w+b")    
+  if file==nil then return false end
+  file:setvbuf ("full") 
+  file:write(GetBmpStart(Width,Height))
       
   for y=0,Height-1 do
     x=1
@@ -404,14 +456,11 @@ function GetGump(n)
       cur=cur-4
       x=x+cnt 
     end 
-    f:write(row)
+    file:write(row)
   end  
-  f:flush()
-  f:close()
+  file:flush()
+  file:close()
 end
-
-
-
 function IncludeMap8x8(x,y,f)
   if x==0 or y==0 then WorldTiles[0]={} WorldTiles[0][0]={} return false end --Not logged in
   f = f or UO.CursKind
@@ -450,10 +499,14 @@ function GetStaidx(x,y,f)
   elseif f == 4 then start = (math.floor(x/8)*181+math.floor(y/8))*12 +1  
   elseif f == 5 then start = (math.floor(x/8)*512+math.floor(y/8))*12 +1 
   else print("Unknown Facet!("..f..")") pause() end    
-  local f = openfile(getinstalldir().."Ultima Online Classic/staidx"..f..".mul","rb") 
+  local f = openfile(dir_data.."staidx"..f..".mul","rb")   
+  if f==nil then return false end
   f:seek("set",start-1) local data_Staidx=f:read(192) f:close()
   return {string.byte(data_Staidx,1,12)}
 end                                                --160x512
+
+  
+  
 function GetMap(x,y,f)     
   local start = 0   
   if f>5 then f=0 end                            
@@ -463,19 +516,30 @@ function GetMap(x,y,f)
   elseif f == 4 then start = (math.floor(x/8)*181+math.floor(y/8))*196 +4   
   elseif f == 5 then start = (math.floor(x/8)*512+math.floor(y/8))*196 +4 
   else print("Unknown Facet!("..f..")") pause() end
-  local f = openfile(getinstalldir().."Ultima Online Classic/map"..f..".mul","rb") 
-  f:seek("set",start) local data_Map=f:read(192) f:close()
+
+  --if IsUOPFormat() then  
+  local file = openfile(dir_data.."map"..f..".mul","rb") 
+  if IsUOPFormat() or file==nil then 
+    local block=math.modf(start/0xC4000)
+    start=start+0xD88+(0xD54*math.modf(block/100))+(12*block) 
+  end
+  if file==nil then file = openfile(dir_data.."map"..f.."LegacyMUL.UOP","rb") end   
+  if file==nil then return false end
+  
+  file:seek("set",start) local data_Map=file:read(192) file:close()
   return {string.byte(data_Map,1,192)}--{string.byte(data_Map,start+1,start+64*3)}
 end
 function GetStatics(start,ending,f)  
   if f>5 then f=0 end
-  local f = openfile(getinstalldir().."Ultima Online Classic/statics"..f..".mul","rb")
+  local f = openfile(dir_data.."statics"..f..".mul","rb")  
+  if f==nil then return false end
   f:seek("set",start) local data_Statics=f:read(ending) f:close() 
   return {string.byte(data_Statics,1,ending)}
 end
 function GetLandTileData(n)                                
   local start =4 + n*30 + math.floor(n/32)*4
-  local f = openfile(getinstalldir().."Ultima Online Classic/tiledata.mul","rb") 
+  local f = openfile(dir_data.."tiledata.mul","rb") 
+  if f==nil then return false end
   f:seek("set",start-1) local data_Tile=f:read(34) f:close()
   local a={string.byte(data_Tile,1,34)}
   local Flags = a[5]*16777216+a[4]*65536+a[3]*256+a[2]
@@ -492,7 +556,8 @@ function GetLandTileData(n)
 end
 function GetStaticTileData(n)                         
   local start = 493573 + n*41 + math.floor((n)/32)*4 
-  local f = openfile(getinstalldir().."Ultima Online Classic/tiledata.mul","rb") 
+  local f = openfile(dir_data.."tiledata.mul","rb")   
+  if f==nil then return false end
   if not f then return GetStaticTileData(n) end
   f:seek("set",start-1) local data_Tile=f:read(40) f:close()
   local a={string.byte(data_Tile,1,40)}--{string.byte(data_Map,start+1,start+64*3)}
@@ -519,7 +584,8 @@ end
 --[[ Sounds! ]]------------------------------------------------------------
 ---------------------------------------------------------------------------    
 function GetSoundIdx(n)
-  local f = openfile(getinstalldir().."Ultima Online Classic/soundidx.mul","rb")                      
+  local f = openfile(dir_data.."soundidx.mul","rb")   
+  if f==nil then return false end                   
   local start = n*12   
   f:seek("set",start)
   data_soundidx=f:read(12) 
@@ -532,11 +598,12 @@ function GetSoundIdx(n)
 end
 function GetSound(n)
   local Lookup,Size=GetSoundIdx(n)                            
-  local f = openfile(getinstalldir().."Ultima Online Classic/sound.mul","rb")  
+  local f = openfile(dir_data.."sound.mul","rb")     
+  if f==nil then return false end
   f:seek("set",Lookup)
   data_sound=f:read(Size) 
   f:close() 
-  local f = openfile(getinstalldir().."sound.wav","w+b") 
+  local f = openfile(dir_sound_wav,"w+b") 
   f:setvbuf ("full")      
   local Name=string.sub(data_sound,1,16)          
   local zero=string.char(0x0)
@@ -554,3 +621,81 @@ function GetSound(n)
   local Duration=(Size-40)*8/352000
   return Name, Duration
 end
+
+function GetString(n)
+  --n=n-1
+  local Lookup, Size =6,100--n*88+(math.floor(n/8)*4),88
+  local f = openfile(dir_data.."Cliloc.enu","rb")   
+  if f==nil then return false end
+  local Table={[0]=0}
+for i=1,109269 do
+  f:seek("set",Lookup)        
+  data_art=f:read(Size)    
+
+  local Index =Read(data_art,1,5)   
+  local TableEnd =Read(data_art,6,2)  
+  local Name = ''
+  Name = string.sub(data_art,8,7+TableEnd)
+  Lookup=Lookup+TableEnd+7
+  --if Index==3011032 then print(i) pause() end  
+  if Name=="bank" then print(i) pause() end
+  if Name ~= '' then Table[Index]=Name
+    if Table[0]<Index then Table[0]=Index end 
+  --print(i..","..Index..","..TableEnd.." :"..Name) 
+  end
+  end
+  f:close() 
+  return Table
+end 
+
+
+
+
+
+
+function SetMap(x,y,f,c)     
+  local start = 0   
+  if f>5 then f=0 end                            
+  if f == 0 or f == 1 then start = (math.floor(x/8)*512+math.floor(y/8))*196 +4     
+  elseif f == 2 then start = (math.floor(x/8)*200+math.floor(y/8))*196 +4 
+  elseif f == 3 then start = (math.floor(x/8)*256+math.floor(y/8))*196 +4 
+  elseif f == 4 then start = (math.floor(x/8)*181+math.floor(y/8))*196 +4   
+  elseif f == 5 then start = (math.floor(x/8)*512+math.floor(y/8))*196 +4 
+  else print("Unknown Facet!("..f..")") pause() end
+  local f = openfile(dir_data.."map"..f..".mul","r+b")  
+  if f==nil then return false end
+  local str=''
+  for i=1,#c do 
+    str=str..string.char(c[i])  
+  end
+  print(start)
+  f:seek("set",start) f:write(str) f:close()
+  return true--{string.byte(data_Map,start+1,start+64*3)}
+end
+function SetMap8x8(x,y,f,m)
+  if x==0 or y==0 then WorldTiles[0]={} WorldTiles[0][0]={} return false end --Not logged in
+  f = f or UO.CursKind
+  if f>5 then f=0 end
+  local x8=math.floor(x/8)*8
+  local y8=math.floor(y/8)*8     
+  local c=GetMap(x,y,f)
+  
+  local xs=x-x8
+  local ys=y-y8
+  
+  --z=c[(ys*8+xs)*3+3] 
+  c[(ys*8+xs)*3+3]=m --z+m 
+  --[[for i = 0,63 do
+    local x,y,z = (x+math.mod(i,8)), (y+math.floor(i/8)), c[i*3+3]
+    c[i*3+3]=z+5                           
+   -- local id=c[i*3+2]*256+c[i*3+1]
+   -- local Name, Flags = GetLandTileData(id)
+   -- if z > 127 then z = z - 256 end
+  end            ]]
+  SetMap(x,y,f,c)
+end
+
+--SetMap8x8(1471,1667,0,5) 
+--SetMap8x8(1471,1668,0,5)
+ 
+ 
