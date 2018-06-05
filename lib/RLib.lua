@@ -438,15 +438,12 @@ function Target(id, targetKind)
 	UO.Macro(22, 0)
 end
 
-function TargetTile(tType, x, y, z, targetKind)
-	if (tType == nil) then return end
+function TargetTile(x, y, z)
 	x = x or 0
 	y = y or 0
 	z = z or o
-	targetKind = targetKind or 2
 	
-	UO.LTargetKind = targetKind
-	UO.LTargetTile = tType
+	UO.LTargetKind = 3
 	UO.LTargetX = x
 	UO.LTargetY = y
 	UO.LTargetZ = z
