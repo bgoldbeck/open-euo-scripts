@@ -3,9 +3,10 @@ local result = UO.TileInit(true)
 if result == false then
   print("Could not init tiles!")
 end   
-       
+                    
 --ignoreobject:Push(UO.CharID)  -- Ignore self for player detection  
-
+local cargoHoldID = 1156735560
+local reverseDirTimer = Timer:New()
 local waterTypes = {6041, 6039, 6044, 6043, 6042, 6040}
 local cutTypes = {2508, 2511, 2510, 2509} -- Regular Fish 
 local consumeTypes = {3542}
@@ -18,6 +19,7 @@ local waterKind = 2
 local poleType = 3519
 local recallFromPlayers = true
 
+	 
 --UO.Pathfind(UO.CharPosX + 2, UO.CharPosY, UO.CharPosZ)
 local pole = FindType(poleType, nil, backpack)
 if #pole > 0 then
@@ -34,9 +36,9 @@ pole = pole[1].ID
   
 while UO.Hits > 0 do     
   Pause(150)
-    
+                    
   local x = UO.CharPosX
-  local y = UO.CharPosY - 2
+  local y = UO.CharPosY - 1
   local waterTileType = 0	
   nCnt = UO.TileCnt(x, y)
   for i = 1, nCnt do
@@ -55,13 +57,13 @@ while UO.Hits > 0 do
       WaitForTarget(2500)
       Pause(250)
       if loop == 0 then
-        TargetTile(waterTileType, X() - 3, Y() - 3, Z(), waterKind)
+        TargetTile(waterTileType, X() - 4, Y() - 4, Z(), waterKind)
       else
-        TargetTile(waterTileType, X() + 3, Y() - 3, Z(), waterKind)
+        TargetTile(waterTileType, X() + 4, Y() - 4, Z(), waterKind)
       end
       Pause(7500)
     end
-    local jres = journal:Find("biting")
+    local jres = journal:Find("biting", "reach")
     if jres == 1 then
       Msg("Forward one", 65)
       journal:Clear()
@@ -91,8 +93,17 @@ while UO.Hits > 0 do
     if UseType(consumeTypes[i], nil, backpack) == true then
       Pause(700)  
     end
-  end    	  	      
+  end    
+  -- Turn boat around.
+  if reverseDirTimer:Dif() > 900000 then
+    Msg("Come About")
+    reverseDirTimer:Clear()
+  end	  	 
+  -- Move all fish
+  if CountType(2426, nil, backpack) > 100 then
+    MoveType(2426, backpack, cargoHoldID, nil, nil, nil)
+    Pause(800)
+  end     
 end
-
 
 
