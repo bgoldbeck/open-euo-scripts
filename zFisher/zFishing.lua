@@ -5,7 +5,9 @@ if result == false then
 end   
                     
 --ignoreobject:Push(UO.CharID)  -- Ignore self for player detection  
-local enemyTypes = {169}
+local enemyTypes = {
+  16 -- Water Elemental
+}
 
 local cargoHoldID = 1156735560
 local waterTypes = {6041, 6039, 6044, 6043, 6042, 6040}
@@ -39,10 +41,27 @@ end
 
 pole = pole[1].ID
              
-local loop = 0
+local loop = -1
   
 while UO.Hits > 0 do     
-  local enemies = nil                 
+  local enemies = nil  
+  
+  if Poisoned() then
+    if GetSkill("Magery") > 70.0 then
+      Cast("Cure")
+      WaitForTarget(3600)
+      Target(self)
+    end  
+  end
+  
+  if Hits() < 90 then
+    if GetSkill("Magery") > 70.0 then
+      Cast("Greater Heal")
+      WaitForTarget(3600)
+      Target(self)
+    end
+  end
+                 
   for i = 1, #enemyTypes do
     enemies = FindType(enemyTypes[i])
     if #enemies > 0 then
@@ -67,6 +86,7 @@ while UO.Hits > 0 do
     UseObject(pole)
     WaitForTarget(2500)      
     Pause(250)
+
     if loop == 0 then
       TargetTile(X() - 4, Y() - 4, Z())
     end
@@ -126,4 +146,3 @@ while UO.Hits > 0 do
     end     
   end
 end
-

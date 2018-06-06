@@ -147,6 +147,10 @@ end
 
 
 Timer.Clear = function(state)
+	return state:Reset()
+end
+
+Timer.Reset = function(state)
 	state.index = 0
 	state.value = getticks()
 	return nil
@@ -438,12 +442,13 @@ function Target(id, targetKind)
 	UO.Macro(22, 0)
 end
 
-function TargetTile(x, y, z)
+function TargetTile(x, y, z, kind)
 	x = x or 0
 	y = y or 0
-	z = z or o
+	z = z or 0
+	kind = kind or 2
 	
-	UO.LTargetKind = 3
+	UO.LTargetKind = kind
 	UO.LTargetX = x
 	UO.LTargetY = y
 	UO.LTargetZ = z
@@ -489,6 +494,10 @@ end
 
 function X(id)
 	id = id or self
+    if id == self then
+	    return UO.CharPosX
+	end
+	
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].X
@@ -497,7 +506,11 @@ function X(id)
 end
 
 function Y(id)
-	id = id or self
+    id = id or self
+	if id == self then
+	    return UO.CharPosY
+	end
+	
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Y
@@ -507,6 +520,10 @@ end
 
 function Z(id)
 	id = id or self
+    if id == self then
+	    return UO.CharPosZ
+	end
+	
 	t = ScanItems(true, {ID=id})
 	if #t > 0 then
 		return t[1].Z
