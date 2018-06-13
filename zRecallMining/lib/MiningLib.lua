@@ -620,6 +620,7 @@ end
 function DepositToCrate(crateID)
 	print("Depositing Ore...")
 	
+	wait(1000)
 	UO.LObjectID = crateID
 	UO.Macro(17, 0)
 	
@@ -630,7 +631,7 @@ function DepositToCrate(crateID)
 		end
 	end
 	
-	wait(715)
+	wait(2150)
 	-- That shitty ore
 	while MoveType(crapOreType, UO.BackpackID, crateID, 30, 0x0, 0, 0) do
 		wait(715)

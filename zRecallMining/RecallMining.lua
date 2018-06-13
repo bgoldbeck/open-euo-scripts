@@ -2,12 +2,13 @@ dofile("lib/MiningLib.lua")
 dofile("user.lua")
   
 --Extremely Dangerous!
-local passes  = 1
+local passes  = 3
 --Runebook IDs 
 local bookIDs = {}    
 --Please add as many of these lines as you want!        
 bookIDs[#bookIDs + 1]         = 1154159438 -- Book 1       
---bookIDs[#bookIDs + 1]         = 1118512402 -- Book 2       
+bookIDs[#bookIDs + 1]         = 1118512402 -- Book 2       
+bookIDs[#bookIDs + 1]         = 1142164929 -- Book 3
    
 --End runebooks
          
@@ -136,7 +137,7 @@ for loop = 1, passes do
       end    
       --Go to home
       print(" ")
-      if (ItemTypeCount(ingotType, UO.BackpackID) > 500) or counter == 16 then                  
+      if (ItemTypeCount(ingotType, UO.BackpackID) > 700) or counter == 16 then                  
         currentPosX = UO.CharPosX   
         currentPosY = UO.CharPosY
         while currentPosX == UO.CharPosX and currentPosY == UO.CharPosY do
@@ -144,13 +145,15 @@ for loop = 1, passes do
           RecallFromRune(homeRuneID)
           wait(2750)
         end
-     
+        
+        wait(2750)
         -- Stand exactly next to crate in house.
         while UO.CharPosX ~= 1927 or UO.CharPosY ~= 2200 do
           UO.Macro(5, 1)
+          wait(700)
         end
       
-        wait(4000)
+        wait(5500)
       
       
         --Deposit Ore
@@ -165,20 +168,15 @@ for loop = 1, passes do
   print("       Ingot in bank details...")    
   print("|---------------------------------------|") 
   PrintIngotDetails(crateID)       
-  --print("|---------------------------------------|") 
-  --print("Mandrake   : " .. ItemTypeCount(mandrakeRootType, bankID))
-  --print("Bloodmoss  : " .. ItemTypeCount(bloodmossType, bankID))
-  --print("Black Pearl: " .. ItemTypeCount(blackPearlType, bankID))
-  --print("|---------------------------------------|") 
 
   --Save log       
-  local mineralTotal = 0
+  local mineralTotal = mineralLog[#mineralLog]
   local goldTotal = 0
   f,e = openfile("log.txt", 'w')
   
   for i = 1, #mineralLog do  
     goldTotal = goldTotal + goldEarnedLog[i] 
-    mineralTotal = mineralTotal + mineralLog[i]
+
     allOreMinedTotal = allOreMinedTotal + mineralLog[i]
     if goldEarnedLog[i] < 250 then  
       f:write("Ingot mined at location #" .. i .. " = " .. mineralLog[i] .. " (" .. goldEarnedLog[i] .. "gp) <---- LOW WARNING\n")   
